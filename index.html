@@ -1,0 +1,50 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>Rugs Monitor</title>
+    <style>
+      body { font-family: system-ui, sans-serif; margin: 2rem; }
+      code, pre { background:#111; color:#0f0; padding:.5rem; display:block; white-space:pre-wrap; }
+      button { padding:.6rem 1rem; cursor:pointer; }
+    </style>
+  </head>
+  <body>
+    <h1>Rugs Monitor</h1>
+
+    <p>Backend API: <code id="api-url"></code></p>
+
+    <div style="margin:1rem 0;">
+      <button id="btn-health">Check /health</button>
+      <button id="btn-tail">GET /stats/tail</button>
+      <button id="btn-recent">GET /stats/recent?limit=5</button>
+    </div>
+
+    <pre id="out">{ "msg": "click a button to call the API" }</pre>
+
+    <script>
+      // <-- PUT YOUR RAILWAY URL HERE (include the f!)
+      const API_BASE = "https://web-production-0f78.up.railway.app";
+      document.getElementById('api-url').textContent = API_BASE;
+
+      const out = document.getElementById('out');
+      const show = (data) => out.textContent = JSON.stringify(data, null, 2);
+
+      document.getElementById('btn-health').onclick = async () => {
+        const r = await fetch(API_BASE + "/health");
+        show(await r.json());
+      };
+
+      document.getElementById('btn-tail').onclick = async () => {
+        const r = await fetch(API_BASE + "/stats/tail");
+        show(await r.json());
+      };
+
+      document.getElementById('btn-recent').onclick = async () => {
+        const r = await fetch(API_BASE + "/stats/recent?limit=5");
+        show(await r.json());
+      };
+    </script>
+  </body>
+</html>
